@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Build outputs
+.next/
+dist/
+build/
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+
+# Docker volumes / local data
+postgres_data/
+redis_data/
+
+# OS files
+.DS_Store
+Thumbs.db

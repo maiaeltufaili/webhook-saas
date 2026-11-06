@@ -1,0 +1,30 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Endpoint {
+  id        String        @id @default(uuid())
+  url       String
+  secret    String
+  events    String[]      // e.g. ["user.signup", "payment.succeeded"]
+  createdAt DateTime      @default(now())
+  logs      DeliveryLog[]
+}
+
+model DeliveryLog {
+  id           String   @id @default(uuid())
+  endpointId   String
+  endpoint     Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+  event        String
+  payload      String   // JSON stringified payload
+  statusCode   Int?     // HTTP status code received (e.g., 200, 500)
+  status       String   // "SUCCESS" or "FAILED"
+  attempt      Int
+  errorMessage String?
+  createdAt    DateTime @default(now())
+}
